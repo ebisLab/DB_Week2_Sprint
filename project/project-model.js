@@ -7,7 +7,8 @@ module.exports = {
     findTask,
     findResourceById,
     findProjectById,
-    addResource
+    addResource,
+    addProject
 }
 
 function findProject() {
@@ -51,4 +52,12 @@ function addResource(resource) {
         .then(([resourceId]) => findById(resourceId))
 }
 
+
+function addProject(project) {
+    return db('projects as p')
+        .insert(project)
+        .then(([projectId]) => {
+            return findProjectById(projectId)
+        })
+}
 

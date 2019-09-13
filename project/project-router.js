@@ -47,6 +47,22 @@ router.get('/:id/task', (req, res) => {
         });
 });
 
+router.post('/', (req, res) => {
+    const dataP = req.body;
+
+
+    if (!Object.keys(dataP).includes('name')) {
+        return res.status(400).json({ message: 'Cant return data because its not thur' })
+    }
+    Projects.addProject(dataP)
+        .then(proj => {
+            console.log(proj)
+            res.json({ message: 'Sorry wrong connection' });
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'Failed to get project' });
+        });
+});
 
 
 

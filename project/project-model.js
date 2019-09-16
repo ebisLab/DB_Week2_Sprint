@@ -54,7 +54,7 @@ function addResource(resource) {
 
 
 function addProject(project) {
-    return db('projects as p')
+    return db('project')
         .insert(project)
         .then(([projectId]) => {
             return findProjectById(projectId)

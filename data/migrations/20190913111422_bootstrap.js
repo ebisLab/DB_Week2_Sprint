@@ -4,13 +4,19 @@ exports.up = function (knex) {
         tbl.increments();
         tbl.string('name').notNullable();
         tbl.string('description').notNullable();
-        tbl.boolean('completed').notNullable();
+        tbl.boolean('completed').notNullable().defaultTo(false);
     })
         .createTable('task', tbl => {
             tbl.increments();
             tbl.string('description').notNullable();
             tbl.string('notes').notNullable();
-            tbl.boolean('completed').notNullable();
+            tbl.boolean('completed').notNullable().defaultTo(false);
+            tbl.integer('project_id')
+                .unsigned()
+                .references('id')
+                .inTable('project')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
         })
         .createTable('resources', tbl => {
             tbl.increments()
@@ -19,16 +25,21 @@ exports.up = function (knex) {
                 .notNullable()
                 .references('id')
                 .inTable('projects')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
 
-            tbl.integer('task_id')
+
+            tbl.integer('resource_id')
                 .unsigned()
                 .notNullable()
                 .references('id')
-                .inTable('task')
+                .inTable('resources')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
 
             tbl.string('name').notNullable();
             tbl.string('description').notNullable();
-            tbl.unique(['project_id', 'task_id', 'name', 'description'])
+            tbl.unique(['project_id', 'resource_id', 'name', 'description'])
 
         })
 };

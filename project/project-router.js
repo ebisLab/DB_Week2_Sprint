@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
 
 router.get('/:id/resources', (req, res) => {
     const { id } = req.params;
-
     Projects.findResourceById(id)
         .then(proj => {
             res.json(proj);
@@ -57,8 +56,10 @@ router.post('/', (req, res) => {
     Projects.addProject(dataP)
         .then(proj => {
             console.log(proj)
-            res.json({ message: 'Sorry wrong connection' });
+            res.status(200).json(proj);
         })
+
+
         .catch(err => {
             res.status(500).json({ message: 'Failed to get project' });
         });
